@@ -1,1 +1,8 @@
 language: go
+sudo: false
+go:
+  - 1.8.1
+before_install:
+  - go get github.com/mattn/goveralls
+script:
+  - goveralls -service=travis-ci
