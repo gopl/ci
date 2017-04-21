@@ -65,3 +65,37 @@ script:
 - [goveralls](https://github.com/mattn/goveralls)
 - [INSTRUCTIONS FOR USING TRAVIS](https://coveralls.zendesk.com/hc/en-us/articles/201342809-Go)
 
+
+
+## 3 使用 glide 管理依赖
+
+* 修改 .travis.yml
+
+```yaml
+language: go
+sudo: false
+go:
+  - 1.8.1
+before_install:
+  - go get github.com/mattn/goveralls
+  - go get github.com/Masterminds/glide
+install:
+  - glide install -v
+script:
+  - goveralls -service=travis-ci
+```
+
+* 执行 glide 命令
+```bash
+glide create
+glide up -v
+```
+
+* .gitignore 忽略 /vendor 目录
+
+
+#### 参考资料
+
+- [Glide Documentation](http://glide.readthedocs.io/en/latest/)
+
+

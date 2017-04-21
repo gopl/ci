@@ -4,5 +4,8 @@ go:
   - 1.8.1
 before_install:
   - go get github.com/mattn/goveralls
+  - go get github.com/Masterminds/glide
+install:
+  - glide install -v
 script:
   - goveralls -service=travis-ci
