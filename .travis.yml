@@ -5,7 +5,12 @@ go:
 before_install:
   - go get github.com/mattn/goveralls
   - go get github.com/Masterminds/glide
+  - go get golang.org/x/tools/cmd/goimports
+  - go get github.com/golang/lint/golint
 install:
   - glide install -v
 script:
+  - find . -name "*.go" -not -path "./vendor/*" | xargs goimports -l | grep ".*"; [[ $? -ne 0 ]]
+  - golint -set_exit_status $( go list ./... | grep -v vendor )
+  - go vet $( go list ./... | grep -v vendor )
   - goveralls -service=travis-ci

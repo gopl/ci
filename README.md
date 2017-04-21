@@ -99,3 +99,34 @@ glide up -v
 - [Glide Documentation](http://glide.readthedocs.io/en/latest/)
 
 
+
+## 4 静态代码分析
+
+* 修改 .travis.yml
+
+```yaml
+language: go
+sudo: false
+go:
+  - 1.8.1
+before_install:
+  - go get github.com/mattn/goveralls
+  - go get github.com/Masterminds/glide
+  - go get golang.org/x/tools/cmd/goimports
+  - go get github.com/golang/lint/golint
+install:
+  - glide install -v
+script:
+  - find . -name "*.go" -not -path "./vendor/*" | xargs goimports -l | grep ".*"; [[ $? -ne 0 ]]
+  - golint -set_exit_status $( go list ./... | grep -v vendor )
+  - go vet $( go list ./... | grep -v vendor )
+  - goveralls -service=travis-ci
+```
+
+
+#### 参考资料
+
+- [Go for Visual Studio Code](https://github.com/Microsoft/vscode-go)
+- [An incomplete list of Go tools](https://dominik.honnef.co/posts/2014/12/go-tools/)
+
+
