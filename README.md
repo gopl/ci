@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/gopl/ci.svg?branch=master)](https://travis-ci.org/gopl/ci)
 [![Coverage Status](https://coveralls.io/repos/github/gopl/ci/badge.svg)](https://coveralls.io/github/gopl/ci)
+[![GoDoc](http://godoc.org/github.com/gopl/ci?status.svg)](http://godoc.org/github.com/gopl/ci)
 
 
 ## 1 配置 Travis CI
