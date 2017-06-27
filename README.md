@@ -118,7 +118,7 @@ before_install:
 install:
   - glide install -v
 script:
-  - find . -name "*.go" -not -path "./vendor/*" | xargs goimports -l | grep ".*"; [[ $? -ne 0 ]]
+  - find . -not \( -path "./vendor" -prune \) -type f -name "*.go" -print0 | xargs -0 goimports -l | grep ".*"; [[ $? -ne 0 ]]
   - golint -set_exit_status $( go list ./... | grep -v vendor )
   - go vet $( go list ./... | grep -v vendor )
   - goveralls -service=travis-ci
