@@ -5,12 +5,10 @@ go:
 before_install:
   - go get github.com/mattn/goveralls
   - go get github.com/Masterminds/glide
-  - go get golang.org/x/tools/cmd/goimports
-  - go get github.com/golang/lint/golint
+  - go get -u github.com/alecthomas/gometalinter
+  - gometalinter --install
 install:
   - glide install -v
 script:
-  - find . -not \( -path "./vendor" -prune \) -type f -name "*.go" -print0 | xargs -0 goimports -l | grep ".*"; [[ $? -ne 0 ]]
-  - golint -set_exit_status $( go list ./... | grep -v vendor )
-  - go vet $( go list ./... | grep -v vendor )
+  - gometalinter --config=config.json ./...
   - goveralls -service=travis-ci

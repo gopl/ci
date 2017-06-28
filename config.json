@@ -1,0 +1,5 @@
+{
+	"Vendor": true,
+	"DisableAll": true,
+	"Enable": ["goimports", "golint", "vet", "vetshadow", "deadcode", "gosimple"]
+}

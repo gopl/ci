@@ -103,6 +103,8 @@ glide up -v
 
 ## 4 静态代码分析
 
+使用 [gometalinter](https://github.com/alecthomas/gometalinter) 执行分析
+
 * 修改 .travis.yml
 
 ```yaml
@@ -113,15 +115,23 @@ go:
 before_install:
   - go get github.com/mattn/goveralls
   - go get github.com/Masterminds/glide
-  - go get golang.org/x/tools/cmd/goimports
-  - go get github.com/golang/lint/golint
+  - go get -u github.com/alecthomas/gometalinter
+  - gometalinter --install
 install:
   - glide install -v
 script:
-  - find . -not \( -path "./vendor" -prune \) -type f -name "*.go" -print0 | xargs -0 goimports -l | grep ".*"; [[ $? -ne 0 ]]
-  - golint -set_exit_status $( go list ./... | grep -v vendor )
-  - go vet $( go list ./... | grep -v vendor )
+  - gometalinter --config=config.json ./...
   - goveralls -service=travis-ci
+```
+
+* 添加 gometalinter 配置文件 config.json -- 按项目需要配置 Enable 列表，指定执行哪些检查工具
+```json
+{
+  "Vendor": true,
+  "DisableAll": true,
+  "Enable": ["goimports", "golint", "vet", "vetshadow", "deadcode", "gosimple"]
+}
+
 ```
 
 
